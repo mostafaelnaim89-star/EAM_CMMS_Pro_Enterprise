@@ -1,15 +1,15 @@
 # EAM_CMMS_Pro Enterprise
 
-منصة إدارة أصول المؤسسة ونظام إدارة الصيانة المحسوب
+Enterprise Asset Management & CMMS Platform
 
-الإصدار: 0.1.0
+Version: 0.1.0
 
-## الوحدات
+## Modules
 
-* إدارة الأصول
-* نظام إدارة الصيانة المحسوب (CMMS)
-* جرد
-* شراء
-* الجودة والصحة والسلامة والبيئة
-* لوحة معلومات تنفيذية
-* محرك الذكاء الاصطناعي
+* Asset Management
+* CMMS (Computerized Maintenance Management System)
+* Inventory
+* Procurement
+* QHSE (Quality, Health, Safety, and Environment)
+* Executive Dashboard
+* AI Engin
