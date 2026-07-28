@@ -12,4 +12,4 @@ Version: 0.1.0
 * Procurement
 * QHSE (Quality, Health, Safety, and Environment)
 * Executive Dashboard
-* AI Engin
+* AI Engine
