@@ -1,18 +1,15 @@
-mkdir -p backend frontend database ai-engine docs deployment tests scripts && cat > README.md <<'EOF'
 # EAM_CMMS_Pro Enterprise
 
-Enterprise Asset Management & CMMS Platform
+منصة إدارة أصول المؤسسة ونظام إدارة الصيانة المحسوب
 
-Version: 0.1.0
+الإصدار: 0.1.0
 
-## Modules
+## الوحدات
 
-- Asset Management
-- CMMS
-- Inventory
-- Procurement
-- QHSE
-- Executive Dashboard
-- AI Engine
-EOF# EAM_CMMS_Pro_Enterprise
-Enterprise Asset Management &amp; CMMS Platform
+* إدارة الأصول
+* نظام إدارة الصيانة المحسوب (CMMS)
+* جرد
+* شراء
+* الجودة والصحة والسلامة والبيئة
+* لوحة معلومات تنفيذية
+* محرك الذكاء الاصطناعي
