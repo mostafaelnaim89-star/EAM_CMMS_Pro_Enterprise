@@ -1,0 +1,78 @@
+<template>
+  <div class="app-body">
+    <header class="top-header">
+      <div class="org-name">
+        <strong>الشركة القابضة لمياه الشرب والصرف الصحى بمدن القناة</strong>
+        Hydro-ops — إدارة الأصول والصيانة
+      </div>
+    </header>
+
+    <main class="main-content" style="padding: 20px;">
+      <div class="g4" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px;">
+        <div class="sc" style="background: var(--card); padding: 15px; border-radius: 8px;">
+          <div class="sv" style="font-size: 22px; font-weight: bold;">{{ stats.totalAssets }}</div>
+          <div class="sl" style="font-size: 11px; color: #7A8FAD;">إجمالي الأصول والمحطات</div>
+        </div>
+        <div class="sc" style="background: var(--card); padding: 15px; border-radius: 8px;">
+          <div class="sv" style="font-size: 22px; font-weight: bold; color: #E84545;">{{ stats.pendingWorkOrders }}</div>
+          <div class="sl" style="font-size: 11px; color: #7A8FAD;">أوامر الشغل المعلقة</div>
+        </div>
+      </div>
+
+      <div class="card" style="background: rgba(22,42,80,0.6); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.07);">
+        <h3 style="margin-bottom: 15px; font-size: 14px; color: #fff;">إضافة محطة جديدة إلى النظام</h3>
+        <form @submit.prevent="addNewStation">
+          <input v-model="newStation.name" placeholder="اسم المحطة (مثال: محطة مياه قريش)" required style="width:100%; padding:8px; margin-bottom:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; border-radius:6px;" />
+          <input v-model="newStation.code" placeholder="كود المحطة (مثال: ST-NEW-01)" required style="width:100%; padding:8px; margin-bottom:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; border-radius:6px;" />
+          <button type="submit" style="background: #2ECC71; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer;">حفظ وإضافة المحطة</button>
+        </form>
+      </div>
+    </main>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { supabase } from '~/supabaseClient'
+
+const stats = ref({
+  totalAssets: 0,
+  pendingWorkOrders: 0
+})
+
+const newStation = ref({
+  name: '',
+  code: ''
+})
+
+const fetchStats = async () => {
+  try {
+    const { count: assetsCount } = await supabase.from('assets').select('*', { count: 'exact', head: true })
+    const { count: woCount } = await supabase.from('work_orders').select('*', { count: 'exact', head: true }).eq('status', 'pending')
+    
+    stats.value.totalAssets = assetsCount || 0
+    stats.value.pendingWorkOrders = woCount || 0
+  } catch (err) {
+    console.error("خطأ في جلب البيانات:", err)
+  }
+}
+
+const addNewStation = async () => {
+  const { error } = await supabase.from('stations').insert([
+    { station_name: newStation.value.name, station_code: newStation.value.code }
+  ])
+  
+  if (error) {
+    alert("حدث خطأ أثناء الإضافة: " + error.message)
+  } else {
+    alert("تمت إضافة المحطة بنجاح!")
+    newStation.value.name = ''
+    newStation.value.code = ''
+    fetchStats()
+  }
+}
+
+onMounted(() => {
+  fetchStats()
+})
+</script>
