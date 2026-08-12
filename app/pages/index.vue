@@ -135,8 +135,8 @@ const kpis = [
 ]
 
 const sectors = [
-  { name: 'السويس', health: 88, stations: 4, electricity: '3.12M EGP' },
-  { name: 'الإسماعيلية', health: 84, stations: 71, electricity: '2.18M EGP' },
+  { name: 'السويس', health: 88, stations: 11, electricity: '3.12M EGP' },
+  { name: 'الإسماعيلية', health: 84, stations: 64, electricity: '2.18M EGP' },
   { name: 'بورسعيد', health: 87, stations: 6, electricity: '1.74M EGP' }
 ]
 

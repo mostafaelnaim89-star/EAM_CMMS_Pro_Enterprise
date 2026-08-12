@@ -31,6 +31,7 @@
         </NuxtLink>
 
         <div class="nav-section-title">التشغيل والصيانة</div>
+        <NuxtLink class="nav-item" to="/stations"><span class="nav-icon">⛫</span><span>إدارة المحطات</span><b>81</b></NuxtLink>
         <NuxtLink class="nav-item" to="/assets"><span class="nav-icon">◈</span><span>الأصول والمعدات</span><b>80+</b></NuxtLink>
         <NuxtLink class="nav-item" to="/work-orders"><span class="nav-icon">▣</span><span>أوامر العمل</span><b class="danger">12</b></NuxtLink>
         <NuxtLink class="nav-item" to="/preventive-maintenance"><span class="nav-icon">↻</span><span>الصيانة الوقائية</span><b class="success">94%</b></NuxtLink>
