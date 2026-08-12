@@ -75,12 +75,16 @@
         </div>
       </header>
 
-      <slot />
+      <div class="route-content">
+        <slot />
+      </div>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
+useHead({ title: 'EAM_CMMS_Pro — نظام إدارة الأصول والصيانة' })
+
 const mobileMenuOpen = ref(false)
 const search = ref('')
 const selectedSector = ref('كل القطاعات')
@@ -104,3 +108,28 @@ function handleLogout() {
   navigateTo('/')
 }
 </script>
+
+<style scoped>
+.route-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  background: radial-gradient(circle at 8% 10%, rgba(0, 180, 166, .05), transparent 32%), var(--navy-deep);
+}
+.route-content::-webkit-scrollbar { width: 4px; }
+.route-content::-webkit-scrollbar-thumb { background: rgba(240,124,42,.25); border-radius: 4px; }
+@media (max-width: 900px) {
+  .menu-button { display: inline-grid; place-items: center; }
+  .sidebar { position: fixed; right: 0; top: 0; bottom: 0; transform: translateX(105%); transition: transform .2s ease; box-shadow: -18px 0 45px rgba(0,0,0,.35); }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 40; }
+  .header-actions { gap: 8px; }
+  .header-identity { overflow: hidden; }
+  .eyebrow, .header-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
+@media (max-width: 560px) {
+  .clock, .header-divider, .icon-button { display: none; }
+  .user-pill small { display: none; }
+  .header-title { font-size: 9px; }
+}
+</style>
