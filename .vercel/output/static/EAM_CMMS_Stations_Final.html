@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EAM_CMMS_Pro — إدارة المحطات المحدثة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --navy: #0F1F3D; --navy-deep: #060e1a; --card: rgba(18,38,74,0.85); --orange: #F07C2A; --orange-dim: #C4601E; --green: #2ECC71; --red: #E84545; --text: #E8EDF5; --text-dim: #8497b4; --bdim: rgba(255,255,255,0.08); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Cairo', sans-serif; background: var(--navy-deep); color: var(--text); padding: 30px; position: relative; min-height: 100vh; }
+        .watermark { position: fixed; inset: 0; z-index: -1; opacity: 0.03; background-image: url('data:image/jpeg;base64,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'); background-repeat: no-repeat; background-position: center; background-size: 30%; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .header h1 { font-size: 24px; color: var(--orange); }
+        .header p { font-size: 13px; color: var(--text-dim); }
+        .btn-primary { background: var(--orange); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-primary:hover { background: var(--orange-dim); }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid var(--bdim); display: flex; align-items: center; gap: 15px; }
+        .stat-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(240, 124, 42, 0.1); color: var(--orange); display: grid; place-items: center; font-size: 20px; }
+        .stat-info span { display: block; font-size: 11px; color: var(--text-dim); }
+        .stat-info strong { font-size: 20px; font-weight: 900; }
+        .table-container { background: var(--card); border-radius: 12px; border: 1px solid var(--bdim); overflow: hidden; }
+        .data-table { width: 100%; border-collapse: collapse; text-align: right; }
+        .data-table th { padding: 12px 20px; font-size: 12px; color: var(--text-dim); background: rgba(255, 255, 255, 0.02); border-bottom: 1px solid var(--bdim); }
+        .data-table td { padding: 15px 20px; font-size: 13px; border-bottom: 1px solid var(--bdim); }
+        .badge { background: rgba(240, 124, 42, 0.1); color: var(--orange); padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); display: none; place-items: center; z-index: 1000; padding: 20px; }
+        .modal-overlay.active { display: grid; }
+        .modal-content { background: #0b192c; border: 1px solid rgba(240, 124, 42, 0.3); border-radius: 16px; width: 100%; max-width: 600px; overflow: hidden; }
+        .modal-header { padding: 20px; border-bottom: 1px solid var(--bdim); display: flex; justify-content: space-between; align-items: center; }
+        .modal-body { padding: 20px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 11px; color: var(--text-dim); margin-bottom: 6px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px 12px; border-radius: 8px; color: white; font-family: 'Cairo'; outline: none; }
+        .full-width { grid-column: 1 / -1; }
+        .modal-footer { padding: 20px; border-top: 1px solid var(--bdim); display: flex; justify-content: flex-end; gap: 10px; }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-dim); border: 1px solid var(--bdim); padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="watermark"></div>
+    <header class="header">
+        <div>
+            <h1>إدارة المحطات (EAM_CMMS_Pro)</h1>
+            <p>عرض وتعديل بيانات المحطات، الطاقة التصميمية والفعلية، وكفاءة التشغيل.</p>
+        </div>
+        <button class="btn-primary" onclick="openModal()">+ إضافة محطة جديدة</button>
+    </header>
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">⛫</div>
+            <div class="stat-info">
+                <span>إجمالي المحطات</span>
+                <strong id="total-stations">0</strong>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="color: var(--green); background: rgba(46,204,113,0.1);">✓</div>
+            <div class="stat-info">
+                <span>متوسط الكفاءة</span>
+                <strong id="avg-eff">0%</strong>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="color: #F1C40F; background: rgba(241,196,15,0.1);">⚡</div>
+            <div class="stat-info">
+                <span>إجمالي الطاقة الفعلية</span>
+                <strong id="total-prod">0 م³</strong>
+            </div>
+        </div>
+    </section>
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>اسم المحطة</th>
+                    <th>القطاع</th>
+                    <th>النوع</th>
+                    <th>المأخذ</th>
+                    <th>المصب</th>
+                    <th>الطاقة التصميمية (م³/يوم)</th>
+                    <th>الطاقة الفعلية (م³/يوم)</th>
+                    <th>الكفاءة</th>
+                </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+    </div>
+    <div class="modal-overlay" id="stationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="color: var(--orange);">إضافة محطة جديدة</h3>
+                <button onclick="closeModal()" style="background: none; color: white; border: none; font-size: 20px; cursor: pointer;">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>اسم المحطة *</label>
+                        <input type="text" id="s-name" placeholder="مثال: محطة العمده صالح">
+                    </div>
+                    <div class="form-group">
+                        <label>القطاع *</label>
+                        <select id="s-sector">
+                            <option>الإسماعيلية</option>
+                            <option>السويس</option>
+                            <option>بورسعيد</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>النوع</label>
+                        <select id="s-type">
+                            <option>مياه</option>
+                            <option>صرف</option>
+                            <option>معالجة</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>المنطقة</label>
+                        <input type="text" id="s-area" placeholder="المنطقة التابع لها">
+                    </div>
+                    <div class="form-group">
+                        <label>المأخذ</label>
+                        <input type="text" id="s-intake" placeholder="مصدر التغذية">
+                    </div>
+                    <div class="form-group">
+                        <label>المصب</label>
+                        <input type="text" id="s-outlet" placeholder="جهة الصرف النهائي">
+                    </div>
+                    <div class="form-group">
+                        <label>الطاقة التصميمية (م³/يوم)</label>
+                        <input type="number" id="s-design">
+                    </div>
+                    <div class="form-group">
+                        <label>الطاقة الفعلية (م³/يوم)</label>
+                        <input type="number" id="s-actual">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>ملاحظات التشغيل</label>
+                        <textarea id="s-notes" rows="3" placeholder="أي ملاحظات إضافية..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+                <button class="btn-primary" onclick="saveStation()">حفظ البيانات</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let stations = [{"name": "أبو عارف الجديدة", "sector": "السويس", "type": "مياه", "design": 120000, "actual": 95000, "eff": 88, "area": "منطقة السويس", "intake": "ترعة السويس", "outlet": "شبكة التوزيع", "id": "1"}, {"name": "جنيفة", "sector": "السويس", "type": "مياه", "design": 45000, "actual": 32000, "eff": 75, "area": "منطقة السويس", "intake": "ترعة السويس", "outlet": "شبكة التوزيع", "id": "2"}, {"name": "كبريت", "sector": "السويس", "type": "مياه", "design": 10000, "actual": 8500, "eff": 85, "area": "منطقة السويس", "intake": "ترعة السويس", "outlet": "شبكة التوزيع", "id": "3"}, {"name": "العمده صالح", "sector": "الإسماعيلية", "type": "معالجة", "design": 5000, "actual": 2661, "eff": 80, "area": "منطقة الإسماعيلية", "intake": "ترعة الإسماعيلية", "outlet": "شبكة التوزيع", "id": "4"}, {"name": "الضبعيه", "sector": "الإسماعيلية", "type": "معالجة", "design": 5000, "actual": 2397, "eff": 70, "area": "منطقة الإسماعيلية", "intake": "ترعة الإسماعيلية", "outlet": "شبكة التوزيع", "id": "5"}, {"name": "عين غصين الكبري", "sector": "الإسماعيلية", "type": "معالجة", "design": 8000, "actual": 7965, "eff": 95, "area": "منطقة الإسماعيلية", "intake": "ترعة الإسماعيلية", "outlet": "شبكة التوزيع", "id": "6"}];
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            let totalActual = 0;
+            let totalEff = 0;
+            stations.forEach(s => {
+                totalActual += Number(s.actual) || 0;
+                totalEff += Number(s.eff) || 0;
+                let color = s.eff >= 90 ? '#2ECC71' : (s.eff >= 75 ? '#F1C40F' : '#E74C3C');
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${s.name}</strong></td>
+                        <td>${s.sector}</td>
+                        <td><span class="badge">${s.type}</span></td>
+                        <td>${s.intake || '-'}</td>
+                        <td>${s.outlet || '-'}</td>
+                        <td>${Number(s.design).toLocaleString()}</td>
+                        <td>${Number(s.actual).toLocaleString()}</td>
+                        <td><strong style="color: ${color}">${s.eff}%</strong></td>
+                    </tr>
+                `;
+            });
+            document.getElementById('total-stations').innerText = stations.length;
+            document.getElementById('total-prod').innerText = totalActual.toLocaleString() + ' م³';
+            document.getElementById('avg-eff').innerText = stations.length ? Math.round(totalEff / stations.length) + '%' : '0%';
+        }
+        function openModal() { document.getElementById('stationModal').classList.add('active'); }
+        function closeModal() { document.getElementById('stationModal').classList.remove('active'); }
+        function saveStation() {
+            const nameInput = document.getElementById('s-name');
+            const name = nameInput.value;
+            if(!name) { alert('الرجاء إدخال اسم المحطة'); return; }
+            const design = Number(document.getElementById('s-design').value) || 0;
+            const actual = Number(document.getElementById('s-actual').value) || 0;
+            const eff = design > 0 ? Math.round((actual / design) * 100) : 0;
+            stations.push({
+                id: Date.now().toString(),
+                name: name,
+                sector: document.getElementById('s-sector').value,
+                type: document.getElementById('s-type').value,
+                area: document.getElementById('s-area').value,
+                intake: document.getElementById('s-intake').value,
+                outlet: document.getElementById('s-outlet').value,
+                design: design,
+                actual: actual,
+                eff: eff
+            });
+            renderTable();
+            closeModal();
+            nameInput.value = '';
+            document.getElementById('s-design').value = '';
+            document.getElementById('s-actual').value = '';
+            document.getElementById('s-intake').value = '';
+            document.getElementById('s-outlet').value = '';
+        }
+        renderTable();
+    </script>
+</body>
+</html>
