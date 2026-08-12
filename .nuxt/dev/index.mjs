@@ -950,13 +950,13 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
-    "supabaseUrl": "https://placeholder.supabase.co",
-    "supabaseAnonKey": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2NhbCIsInJvbGUiOiJhbm9uIn0.placeholder",
+    "supabaseUrl": "https://agnnoiwclcflymecwzpz.supabase.co",
+    "supabaseAnonKey": "EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnbm5vaXdjbGNmbHltZWN3enB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2ODA4NzIsImV4cCI6MjA5OTI1Njg3Mn0.dURqiKsfXm6QXV-iwnmOV0HmS9O8mbEjeAomdXhYZyA",
     "appName": "EAM_CMMS_Pro",
     "appVersion": "3.0.0",
     "supabase": {
-      "url": "https://placeholder.supabase.co",
-      "key": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2NhbCIsInJvbGUiOiJhbm9uIn0.placeholder",
+      "url": "https://agnnoiwclcflymecwzpz.supabase.co",
+      "key": "EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnbm5vaXdjbGNmbHltZWN3enB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2ODA4NzIsImV4cCI6MjA5OTI1Njg3Mn0.dURqiKsfXm6QXV-iwnmOV0HmS9O8mbEjeAomdXhYZyA",
       "redirect": false,
       "redirectOptions": {
         "login": "/auth/login",
@@ -968,7 +968,7 @@ const _inlineRuntimeConfig = {
         "saveRedirectToCookie": false
       },
       "cookieName": "sb",
-      "cookiePrefix": "sb-placeholder-auth-token",
+      "cookiePrefix": "sb-agnnoiwclcflymecwzpz-auth-token",
       "useSsrCookies": true,
       "cookieOptions": {
         "maxAge": 28800,
@@ -1035,9 +1035,9 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "supabaseServiceKey": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2NhbCIsInJvbGUiOiJzZXJ2aWNlX3JvbGUifQ.placeholder",
+  "supabaseServiceKey": "EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnbm5vaXdjbGNmbHltZWN3enB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2ODA4NzIsImV4cCI6MjA5OTI1Njg3Mn0.dURqiKsfXm6QXV-iwnmOV0HmS9O8mbEjeAomdXhYZyA",
   "supabase": {
-    "serviceKey": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2NhbCIsInJvbGUiOiJzZXJ2aWNlX3JvbGUifQ.placeholder"
+    "serviceKey": "EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnbm5vaXdjbGNmbHltZWN3enB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2ODA4NzIsImV4cCI6MjA5OTI1Njg3Mn0.dURqiKsfXm6QXV-iwnmOV0HmS9O8mbEjeAomdXhYZyA"
   }
 };
 const envOptions = {

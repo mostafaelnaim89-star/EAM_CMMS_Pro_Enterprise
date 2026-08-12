@@ -35,6 +35,11 @@ export default defineNuxtConfig({
 
   ssr: false,
   css: ['~/assets/css/main.css'],
+  vite: {
+    server: {
+      allowedHosts: true
+    }
+  },
 
   app: {
     head: {

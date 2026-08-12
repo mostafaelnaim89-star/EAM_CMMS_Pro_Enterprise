@@ -14,6 +14,7 @@ type HydrationStrategies = {
 type LazyComponent<T> = DefineComponent<HydrationStrategies, {}, {}, {}, {}, {}, {}, { hydrated: () => void }> & T
 
 
+export const AiAssistant: typeof import("../app/components/AiAssistant.vue")['default']
 export const AuthLoginScreen: typeof import("../app/components/auth/LoginScreen.vue")['default']
 export const AuthRoleSelection: typeof import("../app/components/auth/RoleSelection.vue")['default']
 export const AuthSplashScreen: typeof import("../app/components/auth/SplashScreen.vue")['default']
@@ -43,6 +44,7 @@ export const Head: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
+export const LazyAiAssistant: LazyComponent<typeof import("../app/components/AiAssistant.vue")['default']>
 export const LazyAuthLoginScreen: LazyComponent<typeof import("../app/components/auth/LoginScreen.vue")['default']>
 export const LazyAuthRoleSelection: LazyComponent<typeof import("../app/components/auth/RoleSelection.vue")['default']>
 export const LazyAuthSplashScreen: LazyComponent<typeof import("../app/components/auth/SplashScreen.vue")['default']>
