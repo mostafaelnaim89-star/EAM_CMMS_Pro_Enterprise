@@ -39,15 +39,23 @@ OBSIDIAN_API_KEY=your-obsidian-local-rest-api-key
 
 يُحظر وضع `SUPABASE_SERVICE_KEY` أو `MONDAY_API_TOKEN` أو `OBSIDIAN_API_KEY` في متغيرات عامة أو داخل ملفات الواجهة.
 
-## 3. تكامل Obsidian
+## 3. تكامل Obsidian (التوثيق والتقارير الآلية)
 
-يوجد Vault متوافق مع Obsidian داخل:
+النظام مهيأ لتصدير تقارير الصيانة الدورية آلياً كملفات Markdown داخل Obsidian.
 
-`obsidian-vault/`
+### أ. إعداد Obsidian لاستقبال التقارير:
+1. افتح Obsidian وثبّت إضافة **Local REST API** من متجر الإضافات (Community Plugins).
+2. قم بتفعيل الإضافة وانسخ الـ **API Key** الظاهر في الإعدادات.
+3. تأكد من تفعيل خيار **Enable Insecure HTTP Server** إذا كنت تعمل محلياً، أو استخدم HTTPS مع شهادة موثوقة.
+4. أضف `OBSIDIAN_API_URL` (مثلاً `http://127.0.0.1:27124`) و `OBSIDIAN_API_KEY` إلى أسرار النظام (Secrets).
 
-ويحتوي حالياً على ملفات إجراءات ومعايير فنية بصيغة Markdown. لاستخدامه محلياً، نزّل المستودع ثم اختر مجلد `obsidian-vault` من Obsidian عبر **Open folder as vault**.
+### ب. التصدير الآلي للتقارير:
+- عند اكتمال أي دورة صيانة، يقوم النظام باستدعاء المسار `/api/integrations/obsidian/export-report`.
+- يتم إنشاء ملف Markdown جديد تلقائياً داخل مجلد `Maintenance_Reports/` في Obsidian.
+- التقارير مصممة بصيغة متوافقة مع Obsidian (بما في ذلك الـ Frontmatter) لتسهيل البحث والربط بين الملاحظات.
 
-للمزامنة الآلية مع نسخة Obsidian تعمل على جهاز أو خادم، ثبّت إضافة **Local REST API**، ثم عرّف `OBSIDIAN_API_URL` و`OBSIDIAN_API_KEY` على خادم النظام. إذا كان Obsidian يعمل على جهاز شخصي خلف شبكة خاصة، يجب توفير Bridge أو عنوان قابل للوصول من خادم الاستضافة؛ رابط `127.0.0.1` داخل الاستضافة لا يشير إلى جهاز المستخدم.
+### ج. استخدام القبو الجاهز:
+يوجد Vault متوافق داخل `obsidian-vault/` يحتوي على ملفات المعايير الفنية. يمكنك استخدامه كبداية لمكتبتك الفنية.
 
 ## 4. تكامل Monday.com (التزامن التلقائي الكامل)
 
