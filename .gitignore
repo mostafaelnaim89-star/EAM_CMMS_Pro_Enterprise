@@ -3,6 +3,7 @@ node_modules/
 .output/
 .DS_Store
 dist/
+.vercel/
 .env
 .env.*
 !.env.example
