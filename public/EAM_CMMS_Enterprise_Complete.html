@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EAM_CMMS_Pro — المنصة المؤسسية المتكاملة لإدارة الأصول والصيانة</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0ea5e9',
+                        darkBg: '#0f172a',
+                        cardBg: '#1e293b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #0f172a; color: #f8fafc; overflow-x: hidden; }
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.02);
+            z-index: 0;
+            pointer-events: none;
+            white-space: nowrap;
+            user-select: none;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 min-h-screen relative">
+    <div class="watermark">EAM CMMS PRO</div>
+
+    <!-- App Container -->
+    <div id="app" class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- 1. Splash Screen -->
+        <div id="splashScreen" class="fixed inset-0 bg-slate-950 flex flex-col items-center justify-center z-50 transition-opacity duration-700">
+            <div class="relative mb-8">
+                <div class="absolute -inset-4 rounded-full bg-cyan-500/20 blur-xl animate-pulse"></div>
+                <div class="relative w-28 h-28 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-full flex items-center justify-center shadow-2xl border-4 border-slate-800">
+                    <i class="fa-solid fa-water text-white text-5xl"></i>
+                </div>
+            </div>
+            <div class="text-center mb-10 space-y-2">
+                <h1 class="text-3xl md:text-4xl font-black tracking-wider text-white">الشركة القابضة لمياه الشرب والصرف الصحي</h1>
+                <h2 class="text-xl md:text-2xl font-bold text-cyan-400">قطاع مدن القناة — نظام EAM_CMMS_Pro</h2>
+                <p class="text-slate-400 text-sm max-w-md mx-auto">إدارة الأصول، خطط الصيانة الوقائية، التكاليف التشغيلية، وربط المحطات بالذكاء الاصطناعي</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-3 mb-10 text-xs font-semibold">
+                <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-cyan-300">ISO 55000</span>
+                <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-cyan-300">ISO 14224</span>
+                <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-cyan-300">CMMS & EAM</span>
+                <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-cyan-300">81 محطة · 3 قطاعات</span>
+            </div>
+            <button onclick="goToRoleSelection()" class="group relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium rounded-full group bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-lg hover:shadow-cyan-500/50 transition-all duration-300">
+                <span class="relative px-8 py-3.5 transition-all ease-in duration-75 bg-slate-900 rounded-full group-hover:bg-opacity-0 flex items-center gap-3 text-base font-bold">
+                    <i class="fa-solid fa-play text-cyan-400 group-hover:text-white"></i> ابدأ التشغيل والدخول
+                </span>
+            </button>
+        </div>
+
+        <!-- 2. Role Selection Screen -->
+        <div id="roleScreen" class="fixed inset-0 bg-slate-950/95 flex flex-col items-center justify-center z-40 hidden p-6">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-white mb-2">اختر صلاحية الدور الوظيفي</h2>
+                <p class="text-slate-400 text-sm">حدد مستويات الوصول المتاحة للبدء في إدارة المنظومة</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full mb-8">
+                <div onclick="selectRole('مدير النظام')" class="bg-slate-900 border border-slate-800 hover:border-cyan-500 rounded-2xl p-6 text-center cursor-pointer transition-all hover:-translate-y-1 shadow-xl">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-500/10 text-cyan-400 flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">مدير النظام</h3>
+                    <p class="text-slate-400 text-xs">صلاحيات كاملة على كافة القطاعات، الإعدادات، والربط السحابي</p>
+                </div>
+                <div onclick="selectRole('مدير قطاع التشغيل')" class="bg-slate-900 border border-slate-800 hover:border-cyan-500 rounded-2xl p-6 text-center cursor-pointer transition-all hover:-translate-y-1 shadow-xl">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-industry"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">مدير قطاع التشغيل</h3>
+                    <p class="text-slate-400 text-xs">متابعة المحطات، كفاءة الأصول، وتقارير الطاقة والإنتاج</p>
+                </div>
+                <div onclick="selectRole('مهندس صيانة')" class="bg-slate-900 border border-slate-800 hover:border-cyan-500 rounded-2xl p-6 text-center cursor-pointer transition-all hover:-translate-y-1 shadow-xl">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-wrench"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">مهندس صيانة</h3>
+                    <p class="text-slate-400 text-xs">إدارة أوامر العمل، قطع الغيار، وخطط الصيانة الوقائية</p>
+                </div>
+            </div>
+            <button onclick="backToSplash()" class="text-slate-400 hover:text-white text-sm flex items-center gap-2">
+                <i class="fa-solid fa-arrow-right"></i> رجوع للشاشة الرئيسية
+            </button>
+        </div>
+
+        <!-- 3. Login Screen -->
+        <div id="loginScreen" class="fixed inset-0 bg-slate-950/95 flex flex-col items-center justify-center z-40 hidden p-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 max-w-md w-full shadow-2xl">
+                <div class="text-center mb-6">
+                    <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">تسجيل الدخول</h3>
+                    <p id="selectedRoleText" class="text-cyan-400 text-xs mt-1">الدور: مدير النظام</p>
+                </div>
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">البريد الإلكتروني المؤسسي</label>
+                        <input type="email" id="loginEmail" value="admin@schc.com.eg" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">كلمة المرور</label>
+                        <input type="password" id="loginPassword" value="••••••••" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-3 rounded-xl shadow-lg transition-all text-sm">
+                        دخول إلى النظام المتكامل
+                    </button>
+                </form>
+                <div class="mt-6 text-center">
+                    <button onclick="backToRoleSelection()" class="text-slate-400 hover:text-white text-xs">
+                        تغيير الدور الوظيفي
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Main Dashboard Layout (Hidden initially) -->
+        <div id="mainApp" class="flex flex-1 hidden">
+            <!-- Sidebar -->
+            <aside class="w-64 bg-slate-900 border-l border-slate-800 flex flex-col hidden lg:flex shrink-0">
+                <div class="p-4 border-b border-slate-800 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-water"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-white text-sm">EAM_CMMS_Pro</h1>
+                        <p class="text-xs text-slate-400">مدن القناة المؤسسي</p>
+                    </div>
+                </div>
+                <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto text-sm">
+                    <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 font-semibold transition-all">
+                        <i class="fa-solid fa-chart-pie w-5"></i> لوحة القيادة
+                    </a>
+                    <a href="#" onclick="switchTab('stations')" id="nav-stations" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 transition-all">
+                        <i class="fa-solid fa-industry w-5"></i> إدارة المحطات (81)
+                    </a>
+                    <a href="#" onclick="switchTab('assets')" id="nav-assets" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 transition-all">
+                        <i class="fa-solid fa-cubes w-5"></i> الأصول والمعدات
+                    </a>
+                    <a href="#" onclick="switchTab('workOrders')" id="nav-workOrders" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 transition-all">
+                        <i class="fa-solid fa-clipboard-list w-5"></i> أوامر العمل
+                    </a>
+                    <a href="#" onclick="switchTab('reports')" id="nav-reports" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 transition-all">
+                        <i class="fa-solid fa-file-lines w-5"></i> التقارير التنفيذية
+                    </a>
+                    <a href="#" onclick="switchTab('integrations')" id="nav-integrations" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 transition-all">
+                        <i class="fa-solid fa-network-wired w-5"></i> مركز التكاملات
+                    </a>
+                </nav>
+                <div class="p-4 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
+                    <span>v3.0.0 Enterprise</span>
+                    <button onclick="logout()" class="text-rose-400 hover:text-rose-300" title="تسجيل الخروج">
+                        <i class="fa-solid fa-power-off text-base"></i>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+                <!-- Top Navbar -->
+                <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-30">
+                    <div class="flex items-center gap-4">
+                        <button onclick="toggleMobileMenu()" class="lg:hidden text-slate-400 hover:text-white">
+                            <i class="fa-solid fa-bars text-xl"></i>
+                        </button>
+                        <h2 id="pageTitle" class="text-lg font-bold text-white">لوحة القيادة التنفيذية</h2>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs rounded-full font-semibold border border-emerald-500/20">
+                            <i class="fa-solid fa-circle text-[8px] animate-pulse ml-1"></i> متصل بقاعدة البيانات
+                        </span>
+                        <div class="flex items-center gap-3 border-r border-slate-800 pr-4">
+                            <div class="w-9 h-9 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-sm">
+                                م
+                            </div>
+                            <div class="hidden sm:block text-left">
+                                <p class="text-xs font-bold text-white">مصطفى أحمد</p>
+                                <p id="currentUserRole" class="text-[10px] text-slate-400">مدير النظام</p>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Dynamic Content Views -->
+                <div class="p-6 space-y-6 max-w-7xl mx-auto w-full">
+
+                    <!-- TAB 1: Dashboard -->
+                    <div id="view-dashboard" class="space-y-6">
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-slate-400 text-xs font-medium">إجمالي المحطات</span>
+                                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-cyan-400 flex items-center justify-center">
+                                        <i class="fa-solid fa-industry"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white">81 محطة</h3>
+                                <p class="text-xs text-emerald-400 mt-2"><i class="fa-solid fa-arrow-up"></i> 3 قطاعات رئيسية نشطة</p>
+                            </div>
+                            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-slate-400 text-xs font-medium">الأصول المسجلة</span>
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                                        <i class="fa-solid fa-cubes"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white">1,248 أصل</h3>
+                                <p class="text-xs text-emerald-400 mt-2"><i class="fa-solid fa-check"></i> نسبة جاهزية 94.2%</p>
+                            </div>
+                            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-slate-400 text-xs font-medium">أوامر العمل المفتوحة</span>
+                                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                                        <i class="fa-solid fa-clipboard-list"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white">12 أمر</h3>
+                                <p class="text-xs text-amber-400 mt-2"><i class="fa-solid fa-clock"></i> تحت المتابعة الفورية</p>
+                            </div>
+                            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-slate-400 text-xs font-medium">التكاليف التشغيلية (يونيو)</span>
+                                    <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center">
+                                        <i class="fa-solid fa-coins"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white">7.04M ج.م</h3>
+                                <p class="text-xs text-emerald-400 mt-2"><i class="fa-solid fa-arrow-down"></i> ضمن الموازنة المعتمدة</p>
+                            </div>
+                        </div>
+
+                        <!-- Sectors Performance Cards -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+                            <h3 class="text-lg font-bold text-white mb-4">أداء القطاعات التشغيلية</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-slate-950 border border-slate-800 p-5 rounded-xl">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-bold text-white">قطاع السويس</h4>
+                                        <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-xs rounded">مستقر</span>
+                                    </div>
+                                    <p class="text-sm text-slate-400 mb-2">11 محطة · 362 أصل</p>
+                                    <div class="flex justify-between text-xs text-slate-300 mb-1">
+                                        <span>الصحة التشغيلية</span>
+                                        <span class="font-bold text-emerald-400">88%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-emerald-500 h-full" style="width: 88%"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-950 border border-slate-800 p-5 rounded-xl">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-bold text-white">قطاع الإسماعيلية</h4>
+                                        <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-xs rounded">تحت المتابعة</span>
+                                    </div>
+                                    <p class="text-sm text-slate-400 mb-2">64 محطة · 714 أصل</p>
+                                    <div class="flex justify-between text-xs text-slate-300 mb-1">
+                                        <span>الصحة التشغيلية</span>
+                                        <span class="font-bold text-amber-400">84%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-amber-500 h-full" style="width: 84%"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-950 border border-slate-800 p-5 rounded-xl">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-bold text-white">قطاع بورسعيد</h4>
+                                        <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-xs rounded">مستقر</span>
+                                    </div>
+                                    <p class="text-sm text-slate-400 mb-2">6 محطات · 172 أصل</p>
+                                    <div class="flex justify-between text-xs text-slate-300 mb-1">
+                                        <span>الصحة التشغيلية</span>
+                                        <span class="font-bold text-emerald-400">87%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-emerald-500 h-full" style="width: 87%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: Stations Management -->
+                    <div id="view-stations" class="space-y-6 hidden">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">إدارة المحطات (81 محطة)</h3>
+                                <p class="text-xs text-slate-400">إدارة بيانات المحطات، الطاقة التصميمية والفعلية، والكفاءة التشغيلية</p>
+                            </div>
+                            <button onclick="openStationModal()" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm flex items-center gap-2 shadow-lg transition-all">
+                                <i class="fa-solid fa-plus"></i> إضافة محطة جديدة
+                            </button>
+                        </div>
+
+                        <!-- Stations Table -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl shadow-lg overflow-hidden">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-sm">
+                                    <thead class="bg-slate-950 text-slate-400 text-xs uppercase border-b border-slate-800">
+                                        <tr>
+                                            <th class="px-6 py-4">اسم المحطة</th>
+                                            <th class="px-6 py-4">القطاع</th>
+                                            <th class="px-6 py-4">النوع</th>
+                                            <th class="px-6 py-4">الطاقة التصميمية (م³/يوم)</th>
+                                            <th class="px-6 py-4">الطاقة الفعلية (م³/يوم)</th>
+                                            <th class="px-6 py-4">الكفاءة</th>
+                                            <th class="px-6 py-4 text-center">إجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="stationsTableBody" class="divide-y divide-slate-800 text-slate-300">
+                                        <!-- Dynamically populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: Assets -->
+                    <div id="view-assets" class="space-y-6 hidden">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">إدارة الأصول والمعدات</h3>
+                                <p class="text-xs text-slate-400">متابعة المضخات، اللوحات الكهربائية، والصمامات الرئيسية</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="assetsGrid">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- TAB 4: Work Orders -->
+                    <div id="view-workOrders" class="space-y-6 hidden">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">أوامر العمل وصيانة الأصول</h3>
+                                <p class="text-xs text-slate-400">متابعة أوامر الإصلاح والصيانة الوقائية والعلاجية</p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg space-y-4" id="workOrdersList">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- TAB 5: Reports -->
+                    <div id="view-reports" class="space-y-6 hidden">
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+                            <h3 class="text-lg font-bold text-white mb-4">التقارير التنفيذية والمالية المعتمدة</h3>
+                            <p class="text-sm text-slate-400 mb-6">تقارير الأداء الشهري للشركة القابضة لمياه الشرب والصرف الصحي بمدن القناة (يونيو 2026 / موازنة 2027).</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-slate-950 border border-slate-800 p-5 rounded-xl flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-white">تقرير التكاليف والإنتاج الفعلي</h4>
+                                        <p class="text-xs text-slate-400 mt-1">يغطي استهلاك الكهرباء، الكيماويات، وقطع الغيار</p>
+                                    </div>
+                                    <button onclick="alert('جاري تصدير التقرير التنفيذي بصيغة PDF...')" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 px-4 py-2 rounded-xl text-xs font-bold transition-all">
+                                        <i class="fa-solid fa-download ml-2"></i> تحميل PDF
+                                    </button>
+                                </div>
+                                <div class="bg-slate-950 border border-slate-800 p-5 rounded-xl flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-white">تقرير مطابقة معايير ISO 55000</h4>
+                                        <p class="text-xs text-slate-400 mt-1">تقييم جاهزية إدارة الأصول وصيانة المحطات</p>
+                                    </div>
+                                    <button onclick="alert('جاري تصدير شهادة المطابقة...')" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 px-4 py-2 rounded-xl text-xs font-bold transition-all">
+                                        <i class="fa-solid fa-download ml-2"></i> تحميل PDF
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 6: Integrations -->
+                    <div id="view-integrations" class="space-y-6 hidden">
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+                            <h3 class="text-lg font-bold text-white mb-2">مركز التكاملات السحابية والذكية</h3>
+                            <p class="text-sm text-slate-400 mb-6">ربط النظام بمنصات Monday.com لإدارة المهام، Obsidian للتوثيق الفني، وReplit للتشغيل السحابي.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-slate-950 border border-slate-800 p-5 rounded-xl">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold">M</div>
+                                        <div>
+                                            <h4 class="font-bold text-white text-sm">Monday.com</h4>
+                                            <span class="text-xs text-emerald-400">مستعد للربط (GraphQL)</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mb-4">مزامنة أوامر العمل وحالات الصيانة تلقائياً ثنائي الاتجاه.</p>
+                                    <button onclick="alert('تم تفعيل فحص اتصال Monday.com بنجاح')" class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs py-2 rounded-xl font-bold">اختبار الاتصال</button>
+                                </div>
+                                <div class="bg-slate-950 border border-slate-800 p-5 rounded-xl">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold">O</div>
+                                        <div>
+                                            <h4 class="font-bold text-white text-sm">Obsidian Vault</h4>
+                                            <span class="text-xs text-emerald-400">مفعل (Local REST API)</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mb-4">تصدير تقارير الصيانة الدورية كملفات Markdown متوافقة.</p>
+                                    <button onclick="alert('تم تصدير أحدث تقارير الصيانة إلى قبو Obsidian')" class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs py-2 rounded-xl font-bold">تصدير التقارير الآن</button>
+                                </div>
+                                <div class="bg-slate-950 border border-slate-800 p-5 rounded-xl">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center font-bold">R</div>
+                                        <div>
+                                            <h4 class="font-bold text-white text-sm">Replit Cloud</h4>
+                                            <span class="text-xs text-emerald-400">متوافق وجاهز</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mb-4">تشغيل دائم وسحابي للمنصة بكافة الحزم والمكونات.</p>
+                                    <button onclick="alert('النظام مهيأ للتشغيل السحابي عبر Replit')" class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs py-2 rounded-xl font-bold">عرض إرشادات التشغيل</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+
+        <!-- AI Assistant Floating Widget -->
+        <div id="aiWidget" class="fixed bottom-6 left-6 z-50 hidden">
+            <div id="aiChatBox" class="bg-slate-900 border border-slate-800 rounded-2xl w-80 sm:w-96 shadow-2xl flex flex-col mb-4 hidden overflow-hidden">
+                <div class="bg-slate-950 p-4 border-b border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <h4 class="font-bold text-white text-sm">المساعد الذكي EAM</h4>
+                    </div>
+                    <button onclick="toggleAiChat()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="aiChatMessages" class="p-4 space-y-3 h-64 overflow-y-auto text-xs text-slate-300">
+                    <div class="bg-slate-800/60 p-3 rounded-xl max-w-[85%]">
+                        أهلاً بك! أنا مساعدك الذكي لنظام EAM_CMMS_Pro. كيف يمكنني مساعدتك في استعلامات المحطات أو الأصول اليوم؟
+                    </div>
+                </div>
+                <div class="p-3 bg-slate-950 border-t border-slate-800 flex gap-2">
+                    <input type="text" id="aiInput" placeholder="اكتب سؤالك هنا..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    <button onclick="sendAiMessage()" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-xl text-xs font-bold"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+            <button onclick="toggleAiChat()" class="w-14 h-14 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 text-white shadow-2xl flex items-center justify-center text-xl hover:scale-105 transition-all">
+                <i class="fa-solid fa-comments"></i>
+            </button>
+        </div>
+
+        <!-- Station Modal -->
+        <div id="stationModal" class="fixed inset-0 bg-slate-950/80 flex items-center justify-center z-50 hidden p-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-lg w-full shadow-2xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modalTitle" class="text-lg font-bold text-white">إضافة محطة جديدة</h3>
+                    <button onclick="closeStationModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+                <form id="stationForm" onsubmit="saveStation(event)" class="space-y-4 text-xs">
+                    <input type="hidden" id="stationIndex" value="-1">
+                    <div>
+                        <label class="block text-slate-300 mb-1 font-medium">اسم المحطة</label>
+                        <input type="text" id="stName" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-slate-300 mb-1 font-medium">القطاع</label>
+                            <select id="stSector" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+                                <option value="الإسماعيلية">الإسماعيلية</option>
+                                <option value="السويس">السويس</option>
+                                <option value="بورسعيد">بورسعيد</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 mb-1 font-medium">النوع</label>
+                            <select id="stType" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+                                <option value="مياه">مياه</option>
+                                <option value="صرف">صرف</option>
+                                <option value="معالجة">معالجة</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-slate-300 mb-1 font-medium">الطاقة التصميمية (م³/يوم)</label>
+                            <input type="number" id="stDesign" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 mb-1 font-medium">الطاقة الفعلية (م³/يوم)</label>
+                            <input type="number" id="stActual" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-4 border-t border-slate-800">
+                        <button type="button" onclick="closeStationModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold">إلغاء</button>
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold">حفظ المحطة</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        // State management & LocalStorage
+        let currentRole = 'مدير النظام';
+
+        // Initial Stations Data
+        let stations = JSON.parse(localStorage.getItem('eam_stations')) || [
+            { name: 'أبو عارف الجديدة', sector: 'السويس', type: 'مياه', design: 50000, actual: 44000 },
+            { name: 'جنيفة الكبرى', sector: 'السويس', type: 'مياه', design: 30000, actual: 26500 },
+            { name: 'العمده صالح', sector: 'الإسماعيلية', type: 'صرف', design: 45000, actual: 38000 },
+            { name: 'الضبعيه', sector: 'الإسماعيلية', type: 'معالجة', design: 60000, actual: 52000 },
+            { name: 'القنطرة غرب', sector: 'بورسعيد', type: 'مياه', design: 40000, actual: 35000 }
+        ];
+
+        let assets = [
+            { name: 'مضخة الرفع الرئيسية #1', location: 'أبو عارف الجديدة', health: 'ممتاز', hours: '4,200 ساعة' },
+            { name: 'لوحة التحكم الكهربائية PLC', location: 'جنيفة الكبرى', health: 'يحتاج صيانة', hours: '8,900 ساعة' },
+            { name: 'صمام عدم الرجوع 12 بوصة', location: 'العمده صالح', health: 'سليم', hours: '2,100 ساعة' }
+        ];
+
+        let workOrders = [
+            { id: 'WO-2026-0412', title: 'اهتزاز غير طبيعي في مضخة الرفع', station: 'أبو عارف الجديدة', priority: 'عاجل', status: 'قيد التنفيذ' },
+            { id: 'WO-2026-0408', title: 'استبدال مانع تسرب المحرك', station: 'عين غصين الكبرى', priority: 'مجدول', status: 'مفتوح' },
+            { id: 'WO-2026-0399', title: 'فحص لوحة التحكم الرئيسية', station: 'جنيفة', priority: 'عادي', status: 'مكتمل' }
+        ];
+
+        function goToRoleSelection() {
+            document.getElementById('splashScreen').classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                document.getElementById('splashScreen').classList.add('hidden');
+                document.getElementById('roleScreen').classList.remove('hidden');
+            }, 500);
+        }
+
+        function backToSplash() {
+            document.getElementById('roleScreen').classList.add('hidden');
+            document.getElementById('splashScreen').classList.remove('hidden', 'opacity-0');
+        }
+
+        function selectRole(role) {
+            currentRole = role;
+            document.getElementById('selectedRoleText').innerText = 'الدور المحدد: ' + role;
+            document.getElementById('roleScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        function backToRoleSelection() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('roleScreen').classList.remove('hidden');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            document.getElementById('aiWidget').classList.remove('hidden');
+            document.getElementById('currentUserRole').innerText = currentRole;
+            renderStations();
+            renderAssets();
+            renderWorkOrders();
+        }
+
+        function logout() {
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('aiWidget').classList.add('hidden');
+            document.getElementById('splashScreen').classList.remove('hidden', 'opacity-0');
+        }
+
+        function switchTab(tabId) {
+            // Hide all views
+            ['dashboard', 'stations', 'assets', 'workOrders', 'reports', 'integrations'].forEach(t => {
+                document.getElementById('view-' + t).classList.add('hidden');
+                const nav = document.getElementById('nav-' + t);
+                if (nav) {
+                    nav.classList.remove('bg-cyan-500/10', 'text-cyan-400', 'font-semibold');
+                    nav.classList.add('text-slate-300', 'hover:bg-slate-800');
+                }
+            });
+            // Show selected view
+            document.getElementById('view-' + tabId).classList.remove('hidden');
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) {
+                activeNav.classList.add('bg-cyan-500/10', 'text-cyan-400', 'font-semibold');
+                activeNav.classList.remove('text-slate-300', 'hover:bg-slate-800');
+            }
+            // Update title
+            const titles = {
+                dashboard: 'لوحة القيادة التنفيذية',
+                stations: 'إدارة المحطات (81)',
+                assets: 'الأصول والمعدات',
+                workOrders: 'أوامر العمل',
+                reports: 'التقارير التنفيذية',
+                integrations: 'مركز التكاملات'
+            };
+            document.getElementById('pageTitle').innerText = titles[tabId];
+        }
+
+        // Render Stations
+        function renderStations() {
+            const tbody = document.getElementById('stationsTableBody');
+            tbody.innerHTML = '';
+            stations.forEach((st, idx) => {
+                const eff = Math.round((st.actual / st.design) * 100);
+                const color = eff >= 85 ? 'text-emerald-400' : (eff >= 75 ? 'text-amber-400' : 'text-rose-400');
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-950/50 transition-all">
+                        <td class="px-6 py-4 font-bold text-white">${st.name}</td>
+                        <td class="px-6 py-4">${st.sector}</td>
+                        <td class="px-6 py-4"><span class="px-2.5 py-1 rounded-full bg-slate-800 text-xs">${st.type}</span></td>
+                        <td class="px-6 py-4">${st.design.toLocaleString()} م³/يوم</td>
+                        <td class="px-6 py-4">${st.actual.toLocaleString()} م³/يوم</td>
+                        <td class="px-6 py-4 font-bold ${color}">${eff}%</td>
+                        <td class="px-6 py-4 text-center">
+                            <button onclick="editStation(${idx})" class="text-cyan-400 hover:text-cyan-300 mx-1"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteStation(${idx})" class="text-rose-400 hover:text-rose-300 mx-1"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function openStationModal() {
+            document.getElementById('modalTitle').innerText = 'إضافة محطة جديدة';
+            document.getElementById('stationIndex').value = '-1';
+            document.getElementById('stationForm').reset();
+            document.getElementById('stationModal').classList.remove('hidden');
+        }
+
+        function closeStationModal() {
+            document.getElementById('stationModal').classList.add('hidden');
+        }
+
+        function saveStation(e) {
+            e.preventDefault();
+            const idx = parseInt(document.getElementById('stationIndex').value);
+            const data = {
+                name: document.getElementById('stName').value,
+                sector: document.getElementById('stSector').value,
+                type: document.getElementById('stType').value,
+                design: parseFloat(document.getElementById('stDesign').value),
+                actual: parseFloat(document.getElementById('stActual').value)
+            };
+            if (idx === -1) {
+                stations.push(data);
+            } else {
+                stations[idx] = data;
+            }
+            localStorage.setItem('eam_stations', JSON.stringify(stations));
+            closeStationModal();
+            renderStations();
+        }
+
+        function editStation(idx) {
+            const st = stations[idx];
+            document.getElementById('modalTitle').innerText = 'تعديل بيانات المحطة';
+            document.getElementById('stationIndex').value = idx;
+            document.getElementById('stName').value = st.name;
+            document.getElementById('stSector').value = st.sector;
+            document.getElementById('stType').value = st.type;
+            document.getElementById('stDesign').value = st.design;
+            document.getElementById('stActual').value = st.actual;
+            document.getElementById('stationModal').classList.remove('hidden');
+        }
+
+        function deleteStation(idx) {
+            if (confirm('هل أنت متأكد من حذف هذه المحطة؟')) {
+                stations.splice(idx, 1);
+                localStorage.setItem('eam_stations', JSON.stringify(stations));
+                renderStations();
+            }
+        }
+
+        function renderAssets() {
+            const grid = document.getElementById('assetsGrid');
+            grid.innerHTML = '';
+            assets.forEach(as => {
+                grid.innerHTML += `
+                    <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-lg space-y-3">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-white text-sm">${as.name}</h4>
+                            <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-xs rounded">${as.health}</span>
+                        </div>
+                        <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot ml-1"></i> ${as.location}</p>
+                        <p class="text-xs text-slate-300 font-mono">ساعات التشغيل: ${as.hours}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function renderWorkOrders() {
+            const list = document.getElementById('workOrdersList');
+            list.innerHTML = '';
+            workOrders.forEach(wo => {
+                list.innerHTML += `
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="font-mono text-xs text-cyan-400 font-bold">${wo.id}</span>
+                                <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] rounded">${wo.priority}</span>
+                            </div>
+                            <h4 class="font-bold text-white text-sm">${wo.title}</h4>
+                            <p class="text-xs text-slate-400 mt-1">${wo.station}</p>
+                        </div>
+                        <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs rounded-xl font-semibold">${wo.status}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // AI Chat
+        function toggleAiChat() {
+            const box = document.getElementById('aiChatBox');
+            box.classList.toggle('hidden');
+        }
+
+        function sendAiMessage() {
+            const input = document.getElementById('aiInput');
+            const val = input.value.trim();
+            if (!val) return;
+            const msgs = document.getElementById('aiChatMessages');
+            msgs.innerHTML += `<div class="bg-cyan-500/10 border border-cyan-500/20 text-white p-3 rounded-xl ml-auto max-w-[85%]">${val}</div>`;
+            input.value = '';
+            setTimeout(() => {
+                msgs.innerHTML += `<div class="bg-slate-800/60 p-3 rounded-xl max-w-[85%]">بناءً على قاعدة البيانات لشركة مدن القناة، حالة المحطات والأصول مستقرة بنسبة 94.2%. هل تحتاج تفاصيل إضافية حول تقارير التكاليف؟</div>`;
+                msgs.scrollTop = msgs.scrollHeight;
+            }, 600);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+    </script>
+</body>
+</html>
