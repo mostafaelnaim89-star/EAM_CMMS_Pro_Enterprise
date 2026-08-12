@@ -49,14 +49,24 @@ OBSIDIAN_API_KEY=your-obsidian-local-rest-api-key
 
 للمزامنة الآلية مع نسخة Obsidian تعمل على جهاز أو خادم، ثبّت إضافة **Local REST API**، ثم عرّف `OBSIDIAN_API_URL` و`OBSIDIAN_API_KEY` على خادم النظام. إذا كان Obsidian يعمل على جهاز شخصي خلف شبكة خاصة، يجب توفير Bridge أو عنوان قابل للوصول من خادم الاستضافة؛ رابط `127.0.0.1` داخل الاستضافة لا يشير إلى جهاز المستخدم.
 
-## 4. تكامل Monday.com
+## 4. تكامل Monday.com (التزامن التلقائي الكامل)
 
-يعتمد التكامل على Monday GraphQL API. يتيح النظام:
+يعتمد التكامل على Monday GraphQL API و Webhooks لضمان تزامن البيانات في الاتجاهين:
 
+### أ. إرسال البيانات من النظام إلى Monday:
 - فحص الحساب عبر الاستعلام `me`.
 - إنشاء عنصر لأمر عمل عبر `POST /api/integrations/monday/sync`.
 - عرض حالة الإعداد من `GET /api/integrations/status`.
 - اختبار الاتصال من `GET /api/integrations/monday/health`.
+
+### ب. استقبال التحديثات من Monday إلى النظام (Webhooks):
+لجعل التحديثات في Monday (مثل تغيير حالة أمر العمل) تنعكس تلقائياً في نظام EAM_CMMS_Pro، اتبع الآتي:
+1. في لوحة Monday، اذهب إلى **Integrations** ثم ابحث عن **Webhooks**.
+2. اختر "When a status changes, send a webhook".
+3. في خانة الرابط، ضع عنوان مستقبل التنبيهات الخاص بنظامك:
+   `https://YOUR_DOMAIN.example/api/integrations/monday/webhook`
+4. سيقوم النظام تلقائياً بالرد على طلب التحقق (Challenge) وتفعيل الربط.
+5. الآن، أي تغيير في أعمدة الحالة داخل Monday سيقوم بإرسال تنبيه فوري إلى النظام لتحديث قاعدة بيانات Supabase.
 
 مثال طلب مزامنة آمن من خادم أو نظام داخلي:
 
