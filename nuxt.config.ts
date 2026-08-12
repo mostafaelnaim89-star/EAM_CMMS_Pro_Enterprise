@@ -54,6 +54,11 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     supabaseServiceKey: process.env.SUPABASE_SERVICE_KEY,
+    mondayApiToken: process.env.MONDAY_API_TOKEN || process.env.MONDAY_API_KEY,
+    mondayBoardId: process.env.MONDAY_BOARD_ID,
+    mondayGroupId: process.env.MONDAY_GROUP_ID,
+    obsidianApiUrl: process.env.OBSIDIAN_API_URL,
+    obsidianApiKey: process.env.OBSIDIAN_API_KEY,
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,

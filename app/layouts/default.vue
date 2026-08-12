@@ -45,6 +45,7 @@
         <div class="nav-section-title">الإدارة</div>
         <NuxtLink class="nav-item" to="/users"><span class="nav-icon">♙</span><span>المستخدمون والصلاحيات</span></NuxtLink>
         <NuxtLink class="nav-item" to="/settings"><span class="nav-icon">⚙</span><span>إعدادات النظام</span></NuxtLink>
+        <NuxtLink class="nav-item" to="/integrations"><span class="nav-icon">⌘</span><span>مركز التكاملات</span><b class="success">3</b></NuxtLink>
       </nav>
 
       <div class="sidebar-footer">
