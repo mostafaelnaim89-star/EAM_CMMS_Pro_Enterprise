@@ -1,0 +1,63 @@
+// nuxt.config.ts — EAM_CMMS_Pro SaaS
+// الشركة القابضة لمياه الشرب والصرف الصحى بمدن القناة
+export default defineNuxtConfig({
+  compatibilityDate: '2024-11-01',
+  devtools: { enabled: true },
+
+  modules: [
+    '@nuxtjs/supabase',
+    '@pinia/nuxt',
+    '@vueuse/nuxt',
+    '@nuxtjs/i18n',
+  ],
+
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_ANON_KEY,
+    serviceKey: process.env.SUPABASE_SERVICE_KEY,
+    redirect: false,
+    redirectOptions: {
+      login: '/auth/login',
+      callback: '/auth/confirm',
+      exclude: ['/auth/*'],
+    },
+  },
+
+  i18n: {
+    defaultLocale: 'ar',
+    detectBrowserLanguage: false,
+    locales: [
+      { code: 'ar', name: 'العربية', dir: 'rtl', file: 'ar.json' },
+      { code: 'en', name: 'English', dir: 'ltr', file: 'en.json' },
+    ],
+    langDir: 'locales/',
+  },
+
+  ssr: false,
+  css: ['~/assets/css/main.css'],
+
+  app: {
+    head: {
+      title: 'EAM_CMMS_Pro — مدن القناة',
+      htmlAttrs: { lang: 'ar', dir: 'rtl' },
+      link: [
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap' },
+      ],
+    },
+  },
+
+  runtimeConfig: {
+    supabaseServiceKey: process.env.SUPABASE_SERVICE_KEY,
+    public: {
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+      appName: 'EAM_CMMS_Pro',
+      appVersion: '3.0.0',
+    },
+  },
+
+  nitro: {
+    preset: 'vercel-edge',
+  },
+})
